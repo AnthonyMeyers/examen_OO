@@ -1,0 +1,16 @@
+2022-Mar-10 11:43 => INSERT INTO user SET  usr_voornaam = 'azeazaee'  ,  usr_naam = 'zeaezaaz'  ,  usr_email = 'azeazeaz@azeaze.ber'  ,  usr_password = '$2y$10$hwUckE5o/OMi9UPBB0BTfecJKeeW6pXJQQ3gHI1oDW6K2Lg0xu0NO' 
+2022-Mar-10 11:43 => UPDATE user SET  usr_voornaam = 'azeaza'  ,  usr_naam = 'zeaezaaz'  ,  usr_email = 'azeazeaz@azeaze.ber'  ,  usr_telefoon = ''  WHERE usr_id = 19 
+2022-Mar-10 11:44 => UPDATE image SET  img_title = 'paris'  ,  img_filename = 'paris.jpg'  ,  img_width = '1023'  ,  img_height = '575'  ,  img_lan_id = '3'  WHERE img_id = 3 
+2022-Mar-10 11:45 => UPDATE user SET  usr_voornaam = 'azeaza'  ,  usr_naam = 'zeaezaaz'  ,  usr_email = 'azeazeaz@azeaze.ber'  ,  usr_telefoon = ''  WHERE usr_id = 19 
+2022-Mar-10 11:45 => UPDATE image SET  img_title = 'berlin'  ,  img_filename = 'berlin.jpg'  ,  img_width = '1024'  ,  img_height = '768'  ,  img_lan_id = '2'  WHERE img_id = 1 
+2022-Mar-10 11:45 => INSERT INTO user SET  usr_voornaam = 'azeazea'  ,  usr_naam = 'azeazea'  ,  usr_email = 'azeazeazeaz@azeazaezz.be'  ,  usr_password = '$2y$10$YHW1s0L8HUJvFtxqBfTeaeac0g.h0ZeitQtvWCH/4FX2fggz/TpUm' 
+2022-Mar-10 11:46 => UPDATE user SET  usr_voornaam = 'azeazea'  ,  usr_naam = 'azeazea'  ,  usr_email = 'azeazeazeaz@azeazaezz.be'  ,  usr_telefoon = ''  WHERE usr_id = 20 
+2022-Mar-10 11:46 => UPDATE image SET  img_title = 'london'  ,  img_filename = 'london.jpg'  ,  img_width = '400'  ,  img_height = '600'  ,  img_lan_id = '5'  WHERE img_id = 2 
+2022-Mar-10 13:40 => UPDATE image SET  img_title = 'berlin'  ,  img_filename = 'berlin.jpg'  ,  img_width = '1024'  ,  img_height = '768'  ,  img_lan_id = '2'  WHERE img_id = 1 
+2022-Mar-10 13:41 => UPDATE image SET  img_title = 'berlin'  ,  img_filename = 'berlin.jpg'  ,  img_width = '1024'  ,  img_height = '768'  ,  img_lan_id = '2'  WHERE img_id = 1 
+2022-Mar-10 13:59 => UPDATE user SET  usr_voornaam = 'anthon'  ,  usr_naam = 'meyers'  ,  usr_email = 'thony.meyers@gmail.com'  ,  usr_telefoon = ''  WHERE usr_id = 1 
+2022-Mar-10 13:59 => UPDATE image SET  img_title = 'london'  ,  img_filename = 'london.jpg'  ,  img_width = '400'  ,  img_height = '600'  ,  img_lan_id = '5'  WHERE img_id = 2 
+2022-Mar-10 14:22 => UPDATE user SET  usr_voornaam = 'anthon'  ,  usr_naam = 'meyers'  ,  usr_email = 'thony.meyers@gmail.com'  ,  usr_telefoon = ''  WHERE usr_id = 1 
+2022-Mar-10 14:27 => UPDATE user SET  usr_voornaam = 'anthon'  ,  usr_naam = 'meyers'  ,  usr_email = 'thony.meyers@gmail.com'  ,  usr_telefoon = ''  WHERE usr_id = 1 
+2022-Mar-10 14:27 => UPDATE image SET  img_title = 'berlin'  ,  img_filename = 'berlin.jpg'  ,  img_width = '1024'  ,  img_height = '768'  ,  img_lan_id = '2'  WHERE img_id = 1 
+2022-Mar-10 15:09 => UPDATE user SET  usr_voornaam = 'anthon'  ,  usr_naam = 'meyers'  ,  usr_email = 'thony.meyers@gmail.com'  ,  usr_telefoon = ''  WHERE usr_id = 1 

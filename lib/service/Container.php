@@ -17,11 +17,25 @@ class Container
     private $checkLogin;
     private $saveCredentials;
     private $userLoader;
+    private $JSONForecast;
 
     public function __construct(array $configuration)
     {
         $this->configuration = $configuration;
     }
+
+    public function getJSONForecast()
+    {
+        if($this->JSONForecast === null)
+        {
+            $this->JSONForecast = new JSONForecast();
+        }
+
+        return $this->JSONForecast;
+    }
+
+
+
 
     public function getUserLoader()
     {

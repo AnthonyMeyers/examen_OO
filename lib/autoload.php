@@ -1,5 +1,8 @@
 <?php
 
+error_reporting( E_ALL );
+ini_set( 'display_errors', 1 );
+
 require_once __DIR__  ."/configuration.php";
 require_once __DIR__  ."/service/Container.php";
 require_once __DIR__ . "/model/User.php";
@@ -12,6 +15,8 @@ require_once __DIR__ . "/service/DBManager.php";
 require_once __DIR__ . "/service/Sanitization.php";
 require_once __DIR__ . "/service/CheckLogin.php";
 require_once __DIR__."/service/SaveCredentials.php";
+require_once __DIR__."/service/ForecastLoaderInterface.php";
+require_once __DIR__."/service/JSONForecast.php";
 require_once __DIR__ . "/service/CityLoader.php";
 require_once __DIR__ . "/service/MessageService.php";
 require_once __DIR__ . "/service/security.php";

@@ -70,7 +70,7 @@ class HTMLFunctions
 
             foreach( array_keys($row) as $field )  //eerst "img_id", dan "img_title", ...
             {
-                $output = str_replace( "@$field@", $row["$field"], $output );
+                $output = str_replace( "@$field@", strval($row["$field"]), $output );
             }
 
             $returnvalue .= $output;

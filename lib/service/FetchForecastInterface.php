@@ -1,6 +1,6 @@
 <?php
 
-interface ForecastLoaderInterface
+interface FetchForecastInterface
 {
 
     /**
@@ -14,7 +14,7 @@ interface ForecastLoaderInterface
      * get the weatherdata for a day
      * @return array
      */
-    public function fetchDayWeather($location);
+
 
 
 

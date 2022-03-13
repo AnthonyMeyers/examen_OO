@@ -18,17 +18,43 @@ class Container
     private $saveCredentials;
     private $userLoader;
     private $JSONForecast;
+    private $weatherLoader;
+    private $PDOForecast;
 
     public function __construct(array $configuration)
     {
         $this->configuration = $configuration;
     }
 
+    public function getPDOForecast()
+    {
+
+        if($this->PDOForecast === null)
+        {
+
+            $this->PDOForecast = new PDOForecast($this->getDBManager());
+
+        }
+
+        return $this->PDOForecast;
+
+    }
+
+    public function getWeatherLoader()
+    {
+        if($this->weatherLoader === null)
+        {
+            $this->weatherLoader = new WeatherLoader($this->getJSONForecast(),$this->getPDOForecast());
+        }
+
+        return $this->weatherLoader;
+    }
+
     public function getJSONForecast()
     {
         if($this->JSONForecast === null)
         {
-            $this->JSONForecast = new JSONForecast();
+            $this->JSONForecast = new JSONForecast($this->getDBManager());
         }
 
         return $this->JSONForecast;

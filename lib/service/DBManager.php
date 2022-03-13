@@ -13,7 +13,8 @@ class DBManager
 
     function GetData( $sql )
     {
-
+        //log sql
+        $this->logger->log($sql);
         //define and execute query
         $result = $this->pdo->query( $sql );
 
@@ -33,6 +34,7 @@ class DBManager
     function ExecuteSQL( $sql )
     {
 
+        //Log sql
         $this->logger->log($sql);
 
         //define and execute query

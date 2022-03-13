@@ -15,9 +15,6 @@ interface FetchForecastInterface
      * @return array
      */
 
-
-
-
     public function processAllWeatherData($data);
 
     public function processDayWeatherData();

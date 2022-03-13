@@ -9,6 +9,7 @@ class PDOForecast implements FetchForecastInterface
     {
         $this->dbm = $dbm;
     }
+
     /**
      * get the weatherdata for a week
      * @return array
@@ -27,7 +28,7 @@ class PDOForecast implements FetchForecastInterface
         return $array;
     }
 
-    public function PDOFetchFakeWeather()
+    private function PDOFetchFakeWeather()
     {
         //Checks if there is any data already registered for today
         $date = date("Y-m-d");
@@ -38,19 +39,18 @@ class PDOForecast implements FetchForecastInterface
             inner join weer on weer.weer_id = img_weer.weer_img_id
             inner join weer_beschrijving on weer.weer_wbg_id = weer_beschrijving.wbg_id
             having img_weer_id = "'.$_GET["id"].'" and img_weer_datum like "'.$date.'"';
-        /*$sql ='select * from img_weer where img_weer_id like "'.$_GET["id"].'" and img_weer_datum like "'.$date.'"';*/
         $data = $this->dbm->getData($sql);
 
         //If there is no data select a random line and add it to the img_weer table
         //If the user reruns the site it will be the same data
         if(count($data) === 0)
         {
-            $data = $this->PDORegisterFakeWeather($data, $date);
+            $data = $this->PDORegisterFakeWeather($date);
         }
         return $data;
     }
 
-    private function PDORegisterFakeWeather($data, $date)
+    private function PDORegisterFakeWeather($date)
     {
 
         $data = $this->dbm->getData("select * from weer order by RAND() limit 1");

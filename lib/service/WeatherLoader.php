@@ -12,7 +12,7 @@ class WeatherLoader
         $this->PDO_forecast = $PDO_forecast;
     }
 
-    public function getForecastJSONToday()
+    public function getForecastToday()
     {
 
             $data = $this->json_forecast->processDayWeatherData();

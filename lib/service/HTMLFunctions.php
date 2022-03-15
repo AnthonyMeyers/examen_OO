@@ -86,10 +86,10 @@ class HTMLFunctions
 
     public function MergeViewWithExtraElements( $template)
     {
-        $extra_elements['csrf_token'] = $this->security->getCsrf();
-
-        //removes persistant tags
+        //removes persistent tags
         $extra_elements = $this->configuration["data_keys_img"];
+
+        $extra_elements['csrf_token'] = $this->security->getCsrf();
 
         if($this->getFileName() === "./templates/stad_form.html")
         {

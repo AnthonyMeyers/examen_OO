@@ -20,17 +20,11 @@ class WeatherLoader
     public function getForecastNow():AbstractWeather
     {
 
-            $data = $this->json_forecast->processCurrentWeatherData();
+            $data = $this->json_forecast->getCurrentWeatherData();
             if($data === null){
-            $data = $this->PDO_forecast->processCurrentWeatherData();
-
+                $data = $this->PDO_forecast->getCurrentWeatherData();
             }
 
-            if($data === null)
-            {
-
-                die("<br/><h3>Geen weerbericht gevonden</h3>");
-            }
         $checkWeather = strtolower($data["description"]);
 
         if($checkWeather === "sunny" || $checkWeather === "clear" || $checkWeather === "partly cloudy")
@@ -50,6 +44,8 @@ class WeatherLoader
         $weather->setWeerWind($data["wind_kph"]);
         $weather->setWeerDescription($data["description"]);
         $weather->setWeerImage($data["image"]);
+        if(isset($data["current"]))$weather->setCurrent(true);
+        else $weather->setCurrent(false);
 
         return $weather;
     }
@@ -57,14 +53,14 @@ class WeatherLoader
     public function getForecastTreeDays()
     {
 
-        $data = $this->json_forecast->processAllWeatherData();
+        $data = $this->json_forecast->getAllWeatherData();
         if($data === null){
-            $data = $this->PDO_forecast->processAllWeatherData();
+            $data = $this->PDO_forecast->getAllWeatherData();
         }
 
         if($data === null)
         {
-            die("Geen weerbericht gevonden.");
+            die("<h3>Geen weerbericht gevonden. De servers zijn in onderhoud.");
         }
 
         $arr = [];

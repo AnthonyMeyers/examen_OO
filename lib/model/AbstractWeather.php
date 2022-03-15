@@ -10,10 +10,12 @@ abstract class AbstractWeather
     private $weer_wind;
     private $weer_description;
     private $weer_image;
+    private $current;
 
     public function __construct($description)
     {
-        $this->setWeerDescription($description);
+        $this->weer_description = $description;
+        $this->current = false;
     }
 
     public function getDayWeatherAsDataArray():array
@@ -34,7 +36,14 @@ abstract class AbstractWeather
         {
             if($key === "date")
             {
-                $arr[0][$key] = "dit moment";
+                if($this->current === true)
+                {
+                    $arr[0][$key] = "dit moment";
+                }
+                else
+                {
+                    $arr[0][$key] = "vandaag";
+                }
             }elseif($key === "weer_wind")
             {
                 $arr[0][$key] = $value." km/u";
@@ -43,6 +52,7 @@ abstract class AbstractWeather
             $arr[0][$key] = $value;
             }
         }
+
         $arr[0]["weather_comment"] = "";
         return $arr;
     }
@@ -185,8 +195,23 @@ abstract class AbstractWeather
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function getCurrent()
+    {
+        return $this->current;
+    }
 
-
+    /**
+     * @param bool $current
+     * @return
+     */
+    public function setCurrent(bool $current):AbstractWeather
+    {
+        $this->current = $current;
+        return $this;
+    }
 
 
 }

@@ -54,7 +54,7 @@ class Container
     {
         if($this->JSONForecast === null)
         {
-            $this->JSONForecast = new JSONForecast($this->getDBManager());
+            $this->JSONForecast = new JSONForecast($this->getDBManager(),$this->configuration);
         }
 
         return $this->JSONForecast;

@@ -6,7 +6,7 @@ interface FetchForecastInterface
     /**
      * @return mixed
      */
-    public function processCurrentWeatherData();
+    public function getCurrentWeatherData();
 
     /**
      * get the weather data for a week
@@ -18,7 +18,7 @@ interface FetchForecastInterface
      * @return array
      */
 
-    public function processAllWeatherData();
+    public function getAllWeatherData();
 
 
 

@@ -1,8 +1,12 @@
 <br/>
-<h3>Het weer vandaag in @city_name@, @country_name@:</h3>
-<table>
-<img src="@image@" alt="">
-<tr><td>Beschrijving: </td><td>@description@</td> <td>Temperatuur: </td><td>@temp@  C</td></tr>
-<tr><td>Tijdstip: </td><td>@localtime@</td><td>Windsnelheid: </td><td>@wind_speed@ km/u</td></tr>
-</table>
+<h3>Het weer op @date@ in @city_name@, @country_name@:</h3>
+<article>
+    <section>
+<img src="@weer_image@" alt="">
+    <ul><li>Beschrijving: @weer_description@</li></ul>
+    <ul><li>Temperatuur: @weer_temp@  C</li></ul>
+    <ul><li>Windsnelheid: @weer_wind@</li></ul>
+    </section>
 <hr/>
+@weer_comment@
+</article>

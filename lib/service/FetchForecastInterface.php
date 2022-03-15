@@ -4,19 +4,22 @@ interface FetchForecastInterface
 {
 
     /**
-     * get the weatherdata for a week
-     * @return array
+     * @return mixed
      */
-    public function fetchAllWeather($location);
-
+    public function processCurrentWeatherData();
 
     /**
-     * get the weatherdata for a day
+     * get the weather data for a week
      * @return array
      */
 
-    public function processAllWeatherData($data);
+    /**
+     * get the weather data for a day
+     * @return array
+     */
 
-    public function processDayWeatherData();
+    public function processAllWeatherData();
+
+
 
 }

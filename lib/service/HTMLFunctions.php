@@ -88,6 +88,9 @@ class HTMLFunctions
     {
         $extra_elements['csrf_token'] = $this->security->getCsrf();
 
+        //removes persistant tags
+        $extra_elements = $this->configuration["data_keys_img"];
+
         if($this->getFileName() === "./templates/stad_form.html")
         {
             $extra_elements['select_land'] = $this->formElements->MakeSelect();

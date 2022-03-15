@@ -3,10 +3,6 @@
 class JSONForecast implements FetchForecastInterface
 {
 
-    private $fetch_data;
-    private $fetch_today;
-    private $forecast_array;
-    private $weather_today;
     private $dbm;
 
     public function __construct($dbm)
@@ -14,32 +10,30 @@ class JSONForecast implements FetchForecastInterface
     $this->dbm = $dbm;
 }
 
-    public function processDayWeatherData()
+    public function processCurrentWeatherData()
     {
-
-        $data = $this->fetchDayWeather();
+        $data = $this->fetchCurrentWeather();
         if($data === null){return null;}
         $array = [];
         $array["city_name"] = $data["location"]["name"];
         $array["country_name"] = $data["location"]["country"];
-        $array["localtime"] = $data["location"]["localtime"];
+        $array["date"] = $data["location"]["localtime"];
         $array["temp"] = $data["current"]["temp_c"];
         $array["wind_kph"] = $data["current"]["wind_kph"];
         $array["description"] = $data["current"]["condition"]["text"];
         $array["image"] = $data["current"]["condition"]["icon"];
-        $this->setWeatherToday($array);
-        return $this->getWeatherToday();
 
+        return $array;
     }
 
-    private function fetchDayWeather()
+    private function fetchCurrentWeather()
     {
 
         $subject = $this->dbm->getData('select img_title from image where img_id = "'.$_GET["id"].'"');
-        $search_url = "http://api.weatherapi.com/v1/forecast.json?key=dac85837b7d24e29be8120304221203&q=";
-        $search_url .= $subject[0]["img_title"];
+        $search_url = "http://api.weatherapi.com/v1/current.json?key=dac85837b7d24e29be8120304221203&q=";
+        /*$search_url .= $subject[0]["img_title"];*/
         $search_url .= "&days=1&aqi=no&alerts=no";
-
+            /*forecast*/
             $API_data = @file_get_contents($search_url);
             $data = json_decode($API_data,true);
             if($API_data === FALSE)
@@ -49,88 +43,42 @@ class JSONForecast implements FetchForecastInterface
             return $data;
     }
 
-
-    public function fetchAllWeather($location)
+    public function processAllWeatherData()
     {
-        $API_data = file_get_contents("http://api.weatherapi.com/v1/forecast.json?key=dac85837b7d24e29be8120304221203&q=".$location."&days=7&aqi=no&alerts=no");
+
+        $data = $this->fetchAllWeather();
+        $arr=[];
+        if($data === null)
+        {
+            return null;
+        }
+        $count = count($data["forecast"]["forecastday"]);
+
+        for($i = 0; $i < $count;$i++)
+        {
+            $arr[$i]["city_name"] = $data["location"]["name"];
+            $arr[$i]["country_name"] = $data["location"]["country"];
+            $arr[$i]["date"] = $data["forecast"]["forecastday"][$i]["date"];
+            $arr[$i]["temp"] = $data["forecast"]["forecastday"][$i]["day"]["maxtemp_c"];
+            $arr[$i]["wind_kph"] = $data["forecast"]["forecastday"][$i]["day"]["maxwind_kph"];
+            $arr[$i]["description"] = $data["forecast"]["forecastday"][$i]["day"]["condition"]["text"];
+            $arr[$i]["image"] = $data["forecast"]["forecastday"][$i]["day"]["condition"]["icon"];
+        }
+
+        return $arr;
+    }
+
+    private function fetchAllWeather()
+    {
+        $subject = $this->dbm->getData('select img_title from image where img_id = "'.$_GET["id"].'"');
+        $search_url = "http://api.weatherapi.com/v1/forecast.json?key=dac85837b7d24e29be8120304221203&q=";
+        /*$search_url .= $subject[0]["img_title"];*/
+        $search_url .= "&days=3&aqi=no&alerts=no";
+
+        $API_data = @file_get_contents($search_url);
         $data = json_decode($API_data,true);
-        $this->setFetchData($data);
+        return $data;
     }
-
-
-    public function processAllWeatherData($data)
-    {
-        // TODO: Implement processAllWeatherData() method.
-    }
-
-
-
-
-    /**
-     * @return mixed
-     */
-    public function getForecastArray()
-    {
-        return $this->forecast_array;
-    }
-
-    /**
-     * @param mixed $forecast_array
-     */
-    public function setForecastArray($forecast_array): void
-    {
-        $this->forecast_array = $forecast_array;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWeatherToday()
-    {
-        return $this->weather_today;
-    }
-
-    /**
-     * @param mixed $weather_today
-     */
-    public function setWeatherToday($weather_today): void
-    {
-        $this->weather_today = $weather_today;
-    }
-
-    /**
-     * @return array
-     */
-    public function getFetchData():array
-    {
-        return $this->fetch_data;
-    }
-
-    /**
-     * @param array $fetch_data
-     */
-    public function setFetchData($fetch_data)
-    {
-        $this->fetch_data = $fetch_data;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFetchToday()
-    {
-        return $this->fetch_today;
-    }
-
-    /**
-     * @param mixed $fetch_today
-     */
-    public function setFetchToday($fetch_today): void
-    {
-        $this->fetch_today = $fetch_today;
-    }
-
 
 
 }

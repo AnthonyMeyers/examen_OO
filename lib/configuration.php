@@ -23,7 +23,15 @@ $configuration = array(
         "usr_naam"=>"",
         "usr_email"=>"",
         "usr_password"=>"",
-        "usr_telefoon"=>""
+        "usr_telefoon"=>"",
+        "weer_image"=>"",
+        "@date@" => "",
+        "@city_name@" =>"",
+        "@country_name@" => "",
+        "weer_description" => "",
+        "weer_temp" => "",
+        "weer_wind" => "",
+        "weer_comment" => ""
     ]
 
 );

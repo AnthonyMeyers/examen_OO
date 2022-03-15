@@ -11,24 +11,24 @@ class PDOForecast implements FetchForecastInterface
     }
 
     /**
-     * get the weatherdata for a week
+     * get the weather data for a week
      * @return array
      */
 
-    public function processDayWeatherData()
+    public function processCurrentWeatherData():array
     {
-        $data = $this->PDOFetchFakeWeather();
+        $data = $this->fetchDayWeather();
         $array["city_name"] = $data[0]["img_title"];
         $array["country_name"] = $data[0]["lan_land"];
-        $array["localtime"] = $data[0]["img_weer_datum"];
+        $array["date"] = $data[0]["img_weer_datum"];
         $array["temp"] = $data[0]["weer_temp"];
         $array["wind_kph"] = $data[0]["weer_wind"];
         $array["description"] = $data[0]["wbg_beschrijving"];
-        $array["image"] = $data[0]["weer_image"];
+        $array["image"] = $data[0]["weer_afbeelding"];
         return $array;
     }
 
-    private function PDOFetchFakeWeather()
+    private function fetchDayWeather():array
     {
         //Checks if there is any data already registered for today
         $date = date("Y-m-d");
@@ -46,16 +46,22 @@ class PDOForecast implements FetchForecastInterface
         if(count($data) === 0)
         {
             $data = $this->PDORegisterFakeWeather($date);
+            return $data;
         }
         return $data;
     }
 
-    private function PDORegisterFakeWeather($date)
+    /**
+     * @param string $date
+     * @return array
+     */
+    private function PDORegisterFakeWeather(string $date):array
     {
 
         $data = $this->dbm->getData("select * from weer order by RAND() limit 1");
         $this->dbm->ExecuteSQL('insert into img_weer (img_weer_id, img_weer_datum, weer_img_id)
                                 values ("'.$_GET["id"].'","'.$date.'","'.$data[0]["weer_id"].'")');
+
         $sql =
             'select * from img_weer
             inner join image on image.img_id = img_weer.img_weer_id
@@ -63,6 +69,7 @@ class PDOForecast implements FetchForecastInterface
             inner join weer on weer.weer_id = img_weer.weer_img_id
             inner join weer_beschrijving on weer.weer_wbg_id = weer_beschrijving.wbg_id
             having img_weer_id = "'.$_GET["id"].'" and img_weer_datum like "'.$date.'"';
+        $data = $this->dbm->getData($sql);
         return $data;
     }
 
@@ -74,7 +81,7 @@ class PDOForecast implements FetchForecastInterface
      * @return array
      */
 
-public function processAllWeatherData($data){}
+public function processAllWeatherData(){}
 
 
 

@@ -5,15 +5,15 @@ abstract class AbstractWeather
 
     private $city_name;
     private $country_name;
-    private $localtime;
-    private $temp;
-    private $wind_speed;
-    private $description;
-    private $image;
+    private $date;
+    private $weer_temp;
+    private $weer_wind;
+    private $weer_description;
+    private $weer_image;
 
     public function __construct($description)
     {
-        $this->setDescription($description);
+        $this->setWeerDescription($description);
     }
 
     public function getDayWeatherAsDataArray():array
@@ -23,122 +23,168 @@ abstract class AbstractWeather
         {
             $arr[0][$key] = $value;
         }
+        $arr[0]["weather_comment"] = $this->getWeatherComment();
+        return $arr;
+    }
+
+    public function getCurrentWeatherAsDataArray():array
+    {
+        $arr = [];
+        foreach($this as $key => $value)
+        {
+            if($key === "date")
+            {
+                $arr[0][$key] = "dit moment";
+            }elseif($key === "weer_wind")
+            {
+                $arr[0][$key] = $value." km/u";
+            }
+            else{
+            $arr[0][$key] = $value;
+            }
+        }
+        $arr[0]["weather_comment"] = "";
         return $arr;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getCityName()
+    public function getWeatherComment():string
+    {
+        $wind = $this->getWeerWind() > 40 ? "veel" : "weinig";
+        $comment = "<p>Het is over het algemeen @weather_description@ weer in ".$this->getCityName().".</p><p> De temperatuur bedraagd ".$this->getWeerTemp()."° C.</p>
+                    <p>Er staat ".$wind." wind. De windsnelheid bedraagd ".$this->getWeerWind()." km per uur.</p>";
+        return $comment;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCityName():string
     {
         return $this->city_name;
     }
 
     /**
-     * @param mixed $city_name
+     * @param string $city_name
+     * @return AbstractWeather
      */
-    public function setCityName($city_name): void
+    public function setCityName(string $city_name): AbstractWeather
     {
         $this->city_name = $city_name;
+        return $this;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getCountryName()
+    public function getCountryName():string
     {
         return $this->country_name;
+
     }
 
     /**
-     * @param mixed $country_name
+     * @param string $country_name
+     * @return AbstractWeather
      */
-    public function setCountryName($country_name): void
+    public function setCountryName(string $country_name): AbstractWeather
     {
         $this->country_name = $country_name;
+        return $this;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getLocaltime()
+    public function getDate():string
     {
-        return $this->localtime;
+        return  date("d-m-Y",strtotime($this->date));
     }
 
     /**
-     * @param mixed $localtime
+     * @param string $localtime
+     * @return AbstractWeather
      */
-    public function setLocaltime($localtime): void
+    public function setDate(string $localtime): AbstractWeather
     {
-        $this->localtime = $localtime;
+        $this->date = date("Y-m-d",strtotime($localtime));
+        return $this;
     }
 
     /**
-     * @return mixed
+     * @return float
      */
-    public function getTemp()
+    public function getWeerTemp():float
     {
-        return $this->temp;
+        return $this->weer_temp;
     }
 
     /**
-     * @param mixed $temp
+     * @param float $temp
+     * @return AbstractWeather
      */
-    public function setTemp($temp): void
+    public function setWeerTemp(float $temp):AbstractWeather
     {
-        $this->temp = $temp;
+        $this->weer_temp = $temp;
+        return $this;
     }
 
     /**
-     * @return mixed
+     * @return float
      */
-    public function getWindSpeed()
+    public function getWeerWind():float
     {
-        return $this->wind_speed;
+        return $this->weer_wind;
     }
 
     /**
-     * @param mixed $wind_speed
+     * @param float $wind_speed
+     * @return AbstractWeather
      */
-    public function setWindSpeed($wind_speed): void
+    public function setWeerWind(float $wind_speed): AbstractWeather
     {
-        $this->wind_speed = $wind_speed;
-    }
-
-
-
-    /**
-     * @return mixed
-     */
-    public function getDescription()
-    {
-        return $this->description;
+        $this->weer_wind = $wind_speed;
+        return $this;
     }
 
     /**
-     * @param mixed $description
+     * @return string
      */
-    public function setDescription($description): void
+    public function getWeerDescription():string
     {
-        $this->description = $description;
+        return $this->weer_description;
     }
 
     /**
-     * @return mixed
+     * @param string $description
+     * @return AbstractWeather;
      */
-    public function getImage()
+    public function setWeerDescription(string $description): AbstractWeather
     {
-        return $this->image;
+        $this->weer_description = $description;
+        return $this;
     }
 
     /**
-     * @param mixed $image
+     * @return string
      */
-    public function setImage($image): void
+    public function getWeerImage()
     {
-        $this->image = $image;
+        return $this->weer_image;
     }
+
+    /**
+     * @param mixed
+     * @return AbstractWeather
+     */
+    public function setWeerImage($image): AbstractWeather
+    {
+        $this->weer_image = $image;
+        return $this;
+    }
+
 
 
 

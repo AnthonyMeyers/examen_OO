@@ -34,7 +34,7 @@ class HTMLFunctions
         print $jumbo;
     }
 
-    public function PrintNavbar( )
+    public function PrintNavbar()
     {
         $navbar = file_get_contents("templates/navbar.html");
         if(isset($_SESSION["user"]))

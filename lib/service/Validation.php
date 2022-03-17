@@ -118,7 +118,7 @@ class Validation
 
         $rows = $dbm->GetData($sql);
 
-        if (count($rows) > 0)
+        if ($rows != null && count($rows) > 0)
         {
             $_SESSION['input_errors']['usr_email_error'] = "Er bestaat al een gebruiker met dit e-mailadres";
             return false;

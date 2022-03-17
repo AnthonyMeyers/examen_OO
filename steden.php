@@ -11,8 +11,8 @@ $htmlFunctions->printHead();
 $htmlFunctions->printJumbo( $title = "Leuke plekken in Europa", $subtitle = "Tips voor citytrips voor vrolijke vakantiegangers!" );
 $htmlFunctions->PrintNavbar();
 
-//PrintMessages();
 
+//PrintMessages();
 
 print '<div class="container">
         <div class="row">';
@@ -24,6 +24,24 @@ print '<div class="container">
    }
 
     //get template
+
+    $day = $container->getWeatherLoader()->getForecastNow(1);
+
+
+   foreach($allCities as $key => $value)
+   {
+
+           $day = $container->getWeatherLoader()->getForecastNow($value["img_id"])->getCurrentWeatherAsDataArray();
+
+           foreach($day[0] as $sub_key => $sub_value)
+           {
+
+               $allCities[$key][$sub_key] = $sub_value;
+
+           }
+
+   }
+
     $htmlFunctions->MergeAllElements($allCities);
 
    print '</div>

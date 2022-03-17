@@ -1,0 +1,28 @@
+article:first-of-type div ul li {
+    list-style-type: none;
+}
+
+article{
+    margin: 30px 0;
+}
+
+article div ul{
+    width: 500px;
+}
+
+article div{
+    display: flex;
+
+    gap: 50px;
+}
+
+article div p{
+    white-space: pre;
+
+}
+
+article div img{
+
+    width: 75px;
+    height: 75px;
+}

@@ -12,102 +12,132 @@ class WeatherLoader
         $this->PDO_forecast = $PDO_forecast;
     }
 
+
     /**
-     * make one AbstractWeather object(object good weather/bad weather
      * @return AbstractWeather
      */
 
-    public function getForecastNow():AbstractWeather
+    public function getForecastNow($id=0):AbstractWeather
     {
 
-            $data = $this->json_forecast->getCurrentWeatherData();
-            if($data === null){
-                $data = $this->PDO_forecast->getCurrentWeatherData();
-            }
+        $data = $this->json_forecast->getCurrentWeatherData($id);
+
+        if($data === null)
+        {
+            $data = $this->PDO_forecast->getCurrentWeatherData($id);
+        }
 
         $checkWeather = strtolower($data["description"]);
 
-        if($checkWeather === "sunny" || $checkWeather === "clear" || $checkWeather === "partly cloudy")
+        if($checkWeather === "zonnig" || $checkWeather === "helder" || $checkWeather === "gedeeltelijk bewolkt")
         {
 
             $weather =  new GoodWeather($data["description"]);
+
         }
         else
         {
+
             $weather = new BadWeather($data["description"]);
+
         }
 
-        $weather->setCityName($data["city_name"]);
-        $weather->setCountryName($data["country_name"]);
-        $weather->setDate($data["date"]);
-        $weather->setWeerTemp($data["temp"]);
-        $weather->setWeerWind($data["wind_kph"]);
-        $weather->setWeerDescription($data["description"]);
-        $weather->setWeerImage($data["image"]);
+        $weather = $this->fillWeatherObject($data,$weather);
+
         if(isset($data["current"]))$weather->setCurrent(true);
+
         else $weather->setCurrent(false);
 
         return $weather;
     }
 
-    public function getForecastTreeDays()
+    /**
+     * @return array
+     */
+    private function getForecastNextDays():array
     {
 
         $data = $this->json_forecast->getAllWeatherData();
+
         if($data === null){
+
             $data = $this->PDO_forecast->getAllWeatherData();
         }
 
-        if($data === null)
-        {
-            die("<h3>Geen weerbericht gevonden. De servers zijn in onderhoud.");
-        }
-
         $arr = [];
-        foreach($data as $key => $value){
-        $checkWeather = strtolower($value["description"]);
 
-        if($checkWeather === "sunny" || $checkWeather === "clear" || $checkWeather === "partly cloudy")
+        foreach($data as $key => $value)
         {
+            $checkWeather = strtolower($value["description"]);
 
-            $weather =  new GoodWeather($value["description"]);
-        }
-        else
-        {
-            $weather = new BadWeather($value["description"]);
-        }
-        $weather->setCityName($value["city_name"]);
-        $weather->setCountryName($value["country_name"]);
-        $weather->setDate($value["date"]);
-        $weather->setWeerTemp($value["temp"]);
-        $weather->setWeerWind($value["wind_kph"]);
-        $weather->setWeerDescription($value["description"]);
-        $weather->setWeerImage($value["image"]);
-        $arr[] = $weather;
+            if($checkWeather === "zonnig" || $checkWeather === "vrij" || $checkWeather === "gedeeltelijk bewolkt")
+
+            {
+
+                $weather =  new GoodWeather($value["description"]);
+
+            }
+            else
+            {
+
+                $weather = new BadWeather($value["description"]);
+
+            }
+
+            $arr[] = $this->fillWeatherObject($value,$weather);
+
         }
 
         return $arr;
 
 ;    }
 
-    public function createDataArrayWeather()
+    /**
+     * @return array
+     */
+    public function getWeatherForecastArray():array
     {
-        $days = $this->getForecastTreeDays();
+        $days = $this->getForecastNextDays();
+
         $arr = [];
 
         foreach($days as $key => $value)
         {
+
             $arr[$key]["city_name"] = $value->getCityName($value);
             $arr[$key]["country_name"] = $value->getCountryName($value);
             $arr[$key]["date"] = $value->getDate($value);
             $arr[$key]["weer_temp"] = $value->getWeerTemp($value);
-            $arr[$key]["weer_wind"] = $value->getWeerWind($value)." max km/u";
+            $arr[$key]["weer_wind"] = $value->getWeerWind($value);
             $arr[$key]["weer_description"] = $value->getWeerDescription($value);
             $arr[$key]["weer_image"] = $value->getWeerImage($value);
             $arr[$key]["weer_comment"] = $value->getWeatherComment();
+            $arr[$key]["weer_luchtvochtigheid"] = $value->getWeerLuchtvochtigheid();
+
         }
 
         return $arr;
+
+    }
+
+    /**
+     * @param $array
+     * @param $weather
+     * @return AbstractWeather;
+     */
+    private function fillWeatherObject($array,$weather)
+    {
+
+        $weather->setCityName($array["city_name"]);
+        $weather->setCountryName($array["country_name"]);
+        $weather->setDate($array["date"]);
+        $weather->setWeerTemp($array["temp"]);
+        $weather->setWeerWind($array["wind_kph"]);
+        $weather->setWeerDescription($array["description"]);
+        $weather->setWeerImage($array["image"]);
+        $weather->setWeerLuchtvochtigheid($array["humidity"]);
+        return $weather;
+
     }
 
 }

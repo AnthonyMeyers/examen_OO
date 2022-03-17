@@ -11,11 +11,14 @@ abstract class AbstractWeather
     private $weer_description;
     private $weer_image;
     private $current;
+    private $weer_luchtvochtigheid;
 
     public function __construct($description)
     {
+
         $this->weer_description = $description;
         $this->current = false;
+
     }
 
     public function getDayWeatherAsDataArray():array
@@ -26,7 +29,9 @@ abstract class AbstractWeather
             $arr[0][$key] = $value;
         }
         $arr[0]["weather_comment"] = $this->getWeatherComment();
+
         return $arr;
+
     }
 
     public function getCurrentWeatherAsDataArray():array
@@ -44,9 +49,6 @@ abstract class AbstractWeather
                 {
                     $arr[0][$key] = "vandaag";
                 }
-            }elseif($key === "weer_wind")
-            {
-                $arr[0][$key] = $value." km/u";
             }
             else{
             $arr[0][$key] = $value;
@@ -63,8 +65,8 @@ abstract class AbstractWeather
     public function getWeatherComment():string
     {
         $wind = $this->getWeerWind() > 40 ? "veel" : "weinig";
-        $comment = "<p>Het is over het algemeen @weather_description@ weer in ".$this->getCityName().".</p><p> De temperatuur bedraagd ".$this->getWeerTemp()."° C.</p>
-                    <p>Er staat ".$wind." wind. De windsnelheid bedraagd ".$this->getWeerWind()." km per uur.</p>";
+        $comment = "<p>Het is over het algemeen @weather_description@ weer in ".$this->getCityName().".</p><p> De temperatuur wordt gemiddeld ".$this->getWeerTemp()."° C.</p>
+                    <p>Er staat ".$wind." wind. De windsnelheid wordt geschat op een maximum van ".$this->getWeerWind()." km per uur.</p>";
         return $comment;
     }
 
@@ -210,6 +212,23 @@ abstract class AbstractWeather
     public function setCurrent(bool $current):AbstractWeather
     {
         $this->current = $current;
+        return $this;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getWeerLuchtvochtigheid()
+    {
+        return $this->weer_luchtvochtigheid;
+    }
+
+    /**
+     * @param integer $weer_luchtvochtigheid
+     */
+    public function setWeerLuchtvochtigheid($weer_luchtvochtigheid): AbstractWeather
+    {
+        $this->weer_luchtvochtigheid = $weer_luchtvochtigheid;
         return $this;
     }
 

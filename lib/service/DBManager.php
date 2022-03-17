@@ -26,7 +26,7 @@ class DBManager
         }
         else
         {
-            return [];
+            return null;
         }
 
     }
